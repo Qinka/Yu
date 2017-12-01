@@ -14,20 +14,30 @@ import qualified Yu.Import.ByteString      as B
 import qualified Yu.Import.ByteString.Lazy as BL
 import qualified Yu.Import.Text            as T
 import           Yu.Launch
+import Paths_yu_launch
 
 
 main :: IO ()
 main = do
-  rain <- createXiao =<< parseCfgFile <$> getContents
-  case rain of
-    Just r@Xiao{..} -> warp rainPort r
+  xiao <- createXiao =<< parseCfgFile <$> fetchConfig
+  case xiao of
+    Just x@Xiao{..} -> warp xiaoPort x
     _               -> hPutStrLn stderr "can not parse"
   return ()
 
 
-parseCfgFileJSON :: String -> Maybe [XiaoConfig]
+fetchConfig :: IO String
+fetchConfig = do
+  cfg1 <- getContents
+  etcP <- getSysconfDir
+  if null cfg1
+    then readFile $ etcP ++ "/xiao/config"
+    else return cfg1
+
+
+parseCfgFileJSON :: String -> Maybe XiaoConfigServer
 parseCfgFileJSON str = A.decode $ BL.pack str
-parseCfgFileYAML :: String -> Maybe [XiaoConfig]
+parseCfgFileYAML :: String -> Maybe XiaoConfigServer
 parseCfgFileYAML str = Y.decode $  B.pack str
-parseCfgFile :: String ->  [XiaoConfig]
-parseCfgFile str =  fromMaybe [] $ parseCfgFileYAML str <|> parseCfgFileJSON str
+parseCfgFile :: String -> Maybe XiaoConfigServer
+parseCfgFile str =  parseCfgFileYAML str <|> parseCfgFileJSON str

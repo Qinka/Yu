@@ -24,7 +24,7 @@ stack install cabal-install alex happy
 
 cd yu-launch
 echo Configuration
-cabal configure --prefix='/usr' \
+cabal configure --prefix='/' \
     --datasubdir='yu' \
     --package-db=clear \
     --package-db=`stack path --local-pkg-db` \

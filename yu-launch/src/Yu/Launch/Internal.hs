@@ -9,10 +9,10 @@
 
 module Yu.Launch.Internal
        ( Xiao(..)
-       , XiaoConfig(..)
+       , XiaoConfigServer(..)
+       , XiaoConfigDatabase(..)
        , Route(..)
        , resourcesXiao
-       , rainConfigIsServer
        ) where
 
 import           Control.Monad.IO.Class
@@ -39,28 +39,30 @@ import qualified Yu.Utils.Info             as UInfo
 
 
 -- | basic config
-data XiaoConfig = RCServer
-                  { rcsPort  :: Int
-                  , rcsTitle :: T.Text
-                  }
-                | RCDatabase
-                  { rcdDB     :: T.Text
-                  , rcdDBAddr :: String
-                  , rcdUser   :: String
-                  , rcdPass   :: String
-                  }
-                  deriving (Show,Eq)
-deriveJSON defaultOptions ''XiaoConfig
-rainConfigIsServer :: XiaoConfig -> Bool
-rainConfigIsServer RCServer{..}   = True
-rainConfigIsServer RCDatabase{..} = False
+data XiaoConfigServer = XCS
+  { xcsPort  :: Int
+  , xcsTitle :: T.Text
+  , xcsKey   :: String
+  , xcsDB    :: XiaoConfigDatabase
+  }
+  deriving (Show,Eq)
+data XiaoConfigDatabase = XCD
+  { xcdName :: T.Text
+  , xcdHost :: String
+  , xcdUser :: String
+  , xcdPass :: String
+  }
+  deriving (Show,Eq)
 
+deriveJSON defaultOptions {fieldLabelModifier = map toLower . drop 3 } ''XiaoConfigServer
+deriveJSON defaultOptions {fieldLabelModifier = map toLower . drop 3} ''XiaoConfigDatabase
 
-data Xiao = Xiao { rainTitle    :: T.Text
-                 , rainDb       :: T.Text
-                 , rainDBUP     :: (T.Text, T.Text)
-                 , rainConnPool :: ConnectionPool
-                 , rainPort     :: Int
+data Xiao = Xiao { xiaoTitle    :: T.Text
+                 , xiaoDb       :: T.Text
+                 , xiaoDBUP     :: (T.Text, T.Text)
+                 , xiaoConnPool :: ConnectionPool
+                 , xiaoPort     :: Int
+                 , xiaoKey      :: B.ByteString
                  }
 
 mkYesodData "Xiao" [parseRoutes| /*Texts UrlR GET PUT DELETE |]
@@ -80,19 +82,19 @@ instance Yesod Xiao where
   maximumContentLength _ _ = Nothing
 
 instance Auth Xiao SHA256 where
-  tokenItem _ = liftIO $ B.pack <$> getEnv "RAIN_ENV"
+  tokenItem x = return $ xiaoKey x
   tokenHash _ = return SHA256
 
 instance Hamletic Xiao (HandlerT Xiao IO) where
-  getTitle = rainTitle <$> getYesod
+  getTitle = xiaoTitle <$> getYesod
   getFramePrefix = return ".frame"
   getVersion = return $(stringE (show version))
   getRaw = return False
 
 instance Mongodic Xiao (HandlerT Xiao IO) where
   getDefaultAccessMode = return master
-  getDefaultDb = rainDb <$> getYesod
-  getDbUP = rainDBUP <$> getYesod
-  getPool = rainConnPool <$> getYesod
+  getDefaultDb = xiaoDb <$> getYesod
+  getDbUP = xiaoDBUP <$> getYesod
+  getPool = xiaoConnPool <$> getYesod
 
 instance Controly Xiao
