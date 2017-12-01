@@ -39,9 +39,9 @@ matrix:
             - mongodb-clients
             - mongodb-server 
             - mongodb-dev
-            - libllvm3.9
-            - libllvm3.9-dbg
-            - liblldb-3.9
+           # - libllvm3.9
+           # - libllvm3.9-dbg
+           # - liblldb-3.9
             - lldb-3.9
             - llvm-3.9
             - llvm-3.9-dev
