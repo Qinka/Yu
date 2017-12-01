@@ -1,20 +1,38 @@
-dist
-dist-*
-cabal-dev
-*.o
+# For Haskell
 *.hi
-*.chi
-*.chs.h
-*.dyn_o
-*.dyn_hi
-.hpc
-.hsenv
-.cabal-sandbox/
+*.o
+dist
 cabal.sandbox.config
-*.prof
-*.aux
-*.hp
-*.eventlog
-.stack-work/
-cabal.project.local
-.HTF/
+.cabal-sandbox
+ssl.csr
+ssl.key
+ssl.crt
+client_session_key.aes
+.DS_Store
+test.config
+.stack-work
+.cabal-sandbox.bak
+
+## temp stack.yaml
+stack-tmp.yaml
+
+
+# For VS Code
+
+.vscode
+TEST
+test
+
+\#*\#
+.markdown-preview.html
+.\#*
+*~
+.ignore
+*.ignore
+
+*.lhs~
+
+
+## un-ignore
+!yu-auth/test-src
+!yu-core/test-src
