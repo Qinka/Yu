@@ -1,0 +1,20 @@
+# xiao dev test
+
+# Back-end
+xiao:
+  image: qinka/yu:0.1-dev-master-Linux-Ubuntu-trusty-GHC_8.2.2-x86_64-llvm-3.9-threaded-debug-latest
+  command: -c "yu-launch < /dev/null"
+  ports:
+    - "3000:3000"
+  restart: always
+  links:
+    - db
+    
+# Database
+db:
+  image: mongo:latest
+  volumes: 
+    - "/data/xiao/db:/data/db"
+  expose:
+    - "27017"
+  restart: always
