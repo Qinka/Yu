@@ -23,11 +23,14 @@ matrix:
             - mongodb-clients
             - mongodb-server 
             - mongodb-dev
+
     - env: GHC_VER=8.2.2 THREADED=t RUN_TEST=t DEBUG=debug IS_DOCKER=docker LLVM=3.9 RUN_BUILD=true
       addons:
         apt:
           sources:
             - hvr-ghc
+            - llvm-toolchain-trusty
+            - llvm-toolchain-trusty-3.9
           packages:
             - ghc-8.2.2
             - curl
@@ -36,6 +39,13 @@ matrix:
             - mongodb-clients
             - mongodb-server 
             - mongodb-dev
+            - libllvm3.9
+            - libllvm3.9-dbg
+            - liblldb-3.9
+            - lldb-3.9
+            - llvm-3.9
+            - llvm-3.9-dev
+            - llvm-3.9-runtime
 
 
 # using docker
