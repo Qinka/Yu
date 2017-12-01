@@ -1,0 +1,13 @@
+# Glob's stack yaml
+resolver: nightly-2017-11-30
+
+packages:
+- yu-auth/
+- yu-utils/
+- yu-core/
+- yu-launch/
+- yu-tool/
+
+extra-deps: []
+
+extra-package-dbs: []
