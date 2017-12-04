@@ -1,7 +1,3 @@
-{-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE MultiParamTypeClasses  #-}
-{-# LANGUAGE OverloadedStrings      #-}
-
 {-|
 Module:       Yu.Auth
 Description:  The methods for authentication
@@ -30,6 +26,10 @@ The methods about authentication for Yu (using Yesod)
 --  You should have received a copy of the GNU General Public License
 --  along with Yu.  If not, see <http://www.gnu.org/licenses/>.
 --
+
+{-# LANGUAGE FunctionalDependencies #-}
+{-# LANGUAGE MultiParamTypeClasses  #-}
+{-# LANGUAGE OverloadedStrings      #-}
 
 module Yu.Auth
        ( -- * check whether it is authorized
@@ -70,3 +70,7 @@ checkAuth = do -- Handler _ IO
     -- failure
     _         -> return $ Unauthorized "Who are you! The thing did not answer."
 
+fetchTokenFromSession :: Auth site hash
+                      => HandlerT site IO (Maybe ByteString)
+fetchTokenFromSession = do
+  site <- getYesod
