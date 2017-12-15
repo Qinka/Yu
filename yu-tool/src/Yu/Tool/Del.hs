@@ -15,6 +15,19 @@
 --  along with Yu.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+{-|
+Module:       Yu.Tool.Del
+Description:  Handle the delete command
+Copyright:    (C) Qinka 2017
+License:      GPL3
+Maintainer:   me@qinka.pro
+Stability:    experimental
+Portability:  unknown
+
+Handle the delete command
+-}
+
+
 {-# LANGUAGE RecordWildCards #-}
 
 module Yu.Tool.Del
@@ -26,9 +39,8 @@ import           System.IO
 import           Yu.Tool.Opt
 import           Yu.Tool.Repo
 
-
+-- | delete the repo
 delHandler :: Yu -> IO ()
-delHandler Del{..} = do
-  case delId of
+delHandler Del{..} = case delId of
     Just i -> removePathForcibly i
     _      -> hPutStrLn stderr "error: path required"

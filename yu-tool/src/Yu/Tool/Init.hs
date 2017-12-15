@@ -15,6 +15,18 @@
 --  along with Yu.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+{-|
+Module:       Yu.Tool.Init
+Description:  Initialization handler.
+Copyright:    (C) Qinka 2017
+License:      GPL3
+Maintainer:   me@qinka.pro
+Stability:    experimental
+Portability:  unknown
+
+Initialization handler.
+-}
+
 {-# LANGUAGE RecordWildCards #-}
 
 module Yu.Tool.Init
@@ -30,6 +42,7 @@ import qualified Yu.Import.ByteString.Lazy as BL
 import           Yu.Tool.Opt
 import           Yu.Tool.Repo
 
+-- | initialization handler
 initHandler :: Yu -> IO ()
 initHandler Init{..} = do
   createDirectory yuRepoName
