@@ -16,7 +16,7 @@
 --
 
 {-|
-Module:       Yu.Tool.
+Module:       Yu.Tool.MakeM
 Description:  
 Copyright:    (C) Qinka 2017
 License:      GPL3
