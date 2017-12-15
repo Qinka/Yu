@@ -45,6 +45,8 @@ import           Yesod.Core
 import           Yu.Auth.Core
 import           Yu.Import.ByteString   (ByteString)
 import qualified Yu.Import.ByteString   as B
+import qualified Yu.Import.Text as T
+import qualified Data.Application
 
 -- | The class to limit the an application with it hash algorithm
 --   and the password of the site.
@@ -61,7 +63,7 @@ checkAuth = do -- Handler _ IO
   site  <- getYesod
   item  <- tokenItem site
   hash  <- tokenHash site
-  token <- lookupHeader "token"
+  token <- fetchToken
   liftIO $ print $ generateHash hash item
   liftIO $ print token
   case verifyHash hash item <$> token of
@@ -70,7 +72,17 @@ checkAuth = do -- Handler _ IO
     -- failure
     _         -> return $ Unauthorized "Who are you! The thing did not answer."
 
-fetchTokenFromSession :: Auth site hash
-                      => HandlerT site IO (Maybe ByteString)
-fetchTokenFromSession = do
-  site <- getYesod
+
+-- | fetch 
+fetchToken :: Auth site hash
+           => HandlerT site IO (Maybe ByteString)
+fetchToken = do
+  ct <- T.encodeUtf8 <$> lookupCookie     "Token"
+  gt <- T.encodeUtf8 <$> lookupGetParam   "Token"
+  pt <- T.encodeUtf8 <$> lookupPostParam  "Token"
+  ht <-                  lookupHeader     "Token"
+  ca <- T.encodeUtf8 <$> lookupCookie     "Authorization"
+  ga <- T.encodeUtf8 <$> lookupGetParam   "Authorization"
+  pa <- T.encodeUtf8 <$> lookupPostParam  "Authorization"
+  ha <-                  lookupHeader     "Authorization"
+  return $ ca <|> ct <|> pa <|> pt <|> ga <|> gt <|> ha <|> ht
