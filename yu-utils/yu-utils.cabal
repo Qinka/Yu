@@ -82,6 +82,7 @@ library
                        , Yesod.Core.Json
                        , Yesod.Core.Dispatch
                        , Yesod.Core.Widget
+                       , Yesod.Routes.TH.Types
                        , Data.Conduit
                        , Network.Wai
                        , Network.Wai.Middleware.RequestLogger

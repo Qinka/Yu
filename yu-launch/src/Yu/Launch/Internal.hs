@@ -82,7 +82,7 @@ data Xiao = Xiao { xiaoTitle    :: T.Text
                  , xiaoKey      :: B.ByteString
                  }
 
-mkYesodData "Xiao" [parseRoutes| /*Texts UrlR GET PUT DELETE |]
+mkYesodData "Xiao" yuRoute
 
 instance Yesod Xiao where
   errorHandler er = selectRep $ do
