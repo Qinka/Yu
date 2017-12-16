@@ -17,7 +17,7 @@
 
 {-|
 Module:       Yu.Tool.MakeM
-Description:  
+Description:  The MakeM
 Copyright:    (C) Qinka 2017
 License:      GPL3
 Maintainer:   me@qinka.pro
