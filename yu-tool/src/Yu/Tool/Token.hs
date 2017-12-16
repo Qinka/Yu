@@ -30,8 +30,8 @@ The identifier helper of yu.
 
 {-# LANGUAGE RecordWildCards #-}
 
-module Yu.Tool.Ih
-  ( ihHandler
+module Yu.Tool.Token
+  ( tokenHandler
   ) where
 
 import           Control.Monad        (when)
@@ -40,15 +40,17 @@ import           Yu.Auth.Core         hiding (generateHash)
 import qualified Yu.Auth.Core         as A
 import qualified Yu.Import.ByteString as B
 import           Yu.Tool.Opt
+import System.Console.CmdArgs.Verbosity
 
 -- | Identifier helper
-ihHandler :: Yu -> IO ()
-ihHandler Ih{..} = case ihToken of
+tokenHandler :: Yu -> IO ()
+tokenHandler Token{..} = case tokenPass of
   Just token -> do
     cmds <- getContents
-    put ihDebug $ generateHash token
+    tokenDebug <- isLoud
+    put tokenDebug $ generateHash token
   _ ->  hPutStrLn stderr "token required"
-  where generateHash  = pack $ case ihHash of
+  where generateHash  = pack $ case tokenHash of
           Just "sha512"      -> A.generateHash SHA512
           Just "sha384"      -> A.generateHash SHA384
           Just "sha3-512"    -> A.generateHash SHA3_512
@@ -61,5 +63,5 @@ ihHandler Ih{..} = case ihToken of
           Just "sha512t-224" -> A.generateHash SHA512t_224
           _                  -> A.generateHash SHA1
         pack f = B.unpack . f . B.pack
-        put i t = hPutStr   stdout t
+        put i t = hPutStr stdout t
              >> when i (hPutStrLn stderr t)

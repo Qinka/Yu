@@ -20,7 +20,7 @@ cabal-version:       >=1.10
 executable yu
   main-is:             Main.hs
   other-modules:       Yu.Tool.Opt
-                       Yu.Tool.Ih
+                       Yu.Tool.Token
                        Yu.Tool.Repo
                        Yu.Tool.Make
                        Yu.Tool.MakeM

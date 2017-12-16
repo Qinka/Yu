@@ -38,65 +38,63 @@ module Yu.Tool.Opt
 import           System.Console.CmdArgs
 
 -- | command
-data Yu = Ih -- ^ identification helper
-            { ihToken :: Maybe String
-            , ihHash  :: Maybe String
-            , ihDebug :: Bool
-            }
-          | Init -- ^ init a repo
-            { initSiteUrl   :: Maybe String
-            , initTokenFile :: Maybe String
-            }
-          | New -- ^ create new one
-            { newId      :: Maybe String        -- ^ id
-            , newTyp     :: Maybe String        -- ^ type
-            , newPath    :: Maybe String        -- ^ path (url)
-            , newTitle   :: Maybe String        -- ^ title
-            , newMIME    :: Maybe String  -- ^ mime
-            , newTags    :: [String]      -- ^ tags
-            , newSum     :: Maybe String  -- ^ summary for item
-            , newContent :: Maybe String        -- ^ path for item
-            , newWhose   :: Maybe String  -- ^ owner
-            }
-          | Del -- ^ delete one
-            { delId :: Maybe String -- ^ id
-            }
-          | Make -- ^ build make file
-            { mkItem :: Maybe String -- ^ make kind
-            , mkOut  :: Maybe String -- ^ output file relate to repo
-            }
-          | Nav  -- ^ about nav
-            { navOpt   :: Maybe String
-            , navLabel :: Maybe String
-            , navOrder :: Maybe Int
-            , navUrl   :: Maybe String
-            }
-          | Script -- ^ about script
-            { sptKind :: Maybe String
-            }
-          | Path
-          | Other -- other command
-            { oCmds :: [String]
-            }
-            deriving (Show,Data)
+data Yu = Token -- ^ identification helper
+          { tokenPass :: Maybe String
+          , tokenHash  :: Maybe String
+          }
+        | Init -- ^ init a repo
+          { initSiteUrl   :: Maybe String
+          , initTokenFile :: Maybe String
+          }
+        | New -- ^ create new one
+          { newId      :: Maybe String        -- ^ id
+          , newTyp     :: Maybe String        -- ^ type
+          , newPath    :: Maybe String        -- ^ path (url)
+          , newTitle   :: Maybe String        -- ^ title
+          , newMIME    :: Maybe String  -- ^ mime
+          , newTags    :: [String]      -- ^ tags
+          , newSum     :: Maybe String  -- ^ summary for item
+          , newContent :: Maybe String        -- ^ path for item
+          , newWhose   :: Maybe String  -- ^ owner
+          }
+        | Delete -- ^ delete one
+          { delId :: Maybe String -- ^ id
+          }
+        | Make -- ^ build make file
+          { mkItem :: Maybe String -- ^ make kind
+          , mkOut  :: Maybe String -- ^ output file relate to repo
+          }
+        | Nav  -- ^ about nav
+          { navOpt   :: Maybe String
+          , navLabel :: Maybe String
+          , navOrder :: Maybe Int
+          , navUrl   :: Maybe String
+          }
+        | Script -- ^ about script
+          { sptKind :: Maybe String
+          }
+        | Path
+        | Render -- ^ render to html
+          { renderFile :: FilePath
+          , renderType :: Maybe String
+          }
+        | Other -- other command
+          { oCmds :: [String]
+          }
+        deriving (Show,Data)
 
-ih :: Yu
-ih = Ih { ihToken = def
-                 &= help "token of identifying"
-                 &= typ "TOKEN"
-                 &= explicit &= name "token"
-                 &= explicit &= name "t"
-        , ihHash  = def
-                 &= help "hash algorithm"
-                 &= typ "shaXX"
-                 &= explicit &= name "hash"
-                 &= explicit &= name "h"
-        , ihDebug = False
-          &= help "debug to show the token"
-          &= typ "BOOL"
-          &= explicit &= name "debug"
-          &= explicit &= name "d"
-        }
+token :: Yu
+token = Token { tokenPass = def
+                &= help "Password of site"
+                &= typ "PASSWORD"
+                &= explicit &= name "token"
+                &= explicit &= name "t"
+              , tokenHash  = def
+                &= help "hash algorithm"
+                &= typ "shaXX"
+                &= explicit &= name "hash"
+                &= explicit &= name "h"
+              }
 
 init_ :: Yu
 init_ = Init { initSiteUrl = def
@@ -160,12 +158,12 @@ new = New { newId = def
           }
 
 del :: Yu
-del = Del { delId = def
-            &= help "id"
-            &= typ "ID"
-            &= explicit &= name "id"
-            &= explicit &= name "i"
-          }
+del = Delete { delId = def
+               &= help "id"
+               &= typ "ID"
+               &= explicit &= name "id"
+               &= explicit &= name "i"
+              }
 
 make :: Yu
 make = Make { mkItem = def
@@ -214,6 +212,18 @@ script = Script { sptKind = def
 path :: Yu
 path = Path
 
+render :: Yu
+render = Render { renderFile = "-"
+                  &= help "file to be transform.(default: -(stdin))"
+                  &= typ "File"
+                  &= explicit &= name "file"
+                  &= explicit &= name "f"
+                , renderType = Nothing
+                  &= help "type of file"
+                  &= typ "Type"
+                  &= explicit &= name "type"
+                  &= explicit &= name "t"
+                }
 
 other :: Yu
 other = Other { oCmds = def
@@ -221,15 +231,16 @@ other = Other { oCmds = def
                 &= args
               }
 
-
 yu :: Yu
-yu = modes [ ih
-             , init_
-             , new
-             , del
-             , make
-             , nav
-             , script
-             ]
+yu = modes [ token
+           , init_
+           , new
+           , del
+           , make
+           , nav
+           -- , render
+           , script
+           ]
   &= program "yu"
+  &= verbosity
   &= summary "summary"

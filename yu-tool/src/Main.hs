@@ -33,7 +33,7 @@ import           System.IO
 import           System.Process
 import qualified Yu.Import.ByteString   as B
 import           Yu.Tool.Del
-import           Yu.Tool.Ih
+import           Yu.Tool.Token
 import           Yu.Tool.Init
 import           Yu.Tool.Make
 import           Yu.Tool.Nav
@@ -52,10 +52,10 @@ main = do
     -- callProcess fc fo
   where matchArgs it =
           case it of
-            Ih{..}     -> ihHandler     it
+            Token{..}     -> tokenHandler     it
             Init{..}   -> initHandler   it
             New{..}    -> newHandler    it
-            Del{..}    -> delHandler    it
+            Delete{..}    -> delHandler    it
             Make{..}   -> makeHandler   it
             Nav{..}    -> navHandler    it
             Script{..} -> scriptHandler it

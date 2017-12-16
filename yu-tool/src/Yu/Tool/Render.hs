@@ -16,31 +16,43 @@
 --
 
 {-|
-Module:       Yu.Tool.Del
-Description:  Handle the delete command
+Module:       Yu.Tool.Render
+Description:  Render to html
 Copyright:    (C) Qinka 2017
 License:      GPL3
 Maintainer:   me@qinka.pro
 Stability:    experimental
 Portability:  unknown
 
-Handle the delete command
+Render to html
 -}
 
+-}
 
 {-# LANGUAGE RecordWildCards #-}
 
-module Yu.Tool.Del
-  ( delHandler
+module Yu.Tool.Render
+  ( renderHandler
   ) where
 
 import           System.Directory
 import           System.IO
+import           Yu.Import
+import           Yu.Import.Aeson
+import qualified Yu.Import.ByteString.Lazy as BL
 import           Yu.Tool.Opt
 import           Yu.Tool.Repo
 
--- | delete the repo
-delHandler :: Yu -> IO ()
-delHandler Delete{..} = case delId of
-    Just i -> removePathForcibly i
-    _      -> hPutStrLn stderr "error: path required"
+data FileType = Markdown | Tex | Html | XtTex
+
+
+renderHandler :: Yu -> IO ()
+renderHandler Render{..} = do
+  fileStr  <- getFile renderFile
+  let fileType = getType renderFile renderType
+
+  where getFile "-" = getContents
+        getFile fp  = readFile fp
+        getType _ (Just typ) = typ
+        getType fn Nothing = case (reverse . takeWhile (/='.') . reverse) fn of
+          "md" -> 
