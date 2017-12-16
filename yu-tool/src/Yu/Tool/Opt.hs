@@ -16,15 +16,15 @@
 --
 
 {-|
-Module:       Yu.Tool.
-Description:  
+Module:       Yu.Tool.Opt
+Description:  Opt for command
 Copyright:    (C) Qinka 2017
 License:      GPL3
 Maintainer:   me@qinka.pro
 Stability:    experimental
 Portability:  unknown
 
-
+Opt for command
 -}
 
 {-# LANGUAGE DeriveDataTypeable #-}
@@ -37,7 +37,7 @@ module Yu.Tool.Opt
 
 import           System.Console.CmdArgs
 
-
+-- | command
 data Yu = Ih -- ^ identification helper
             { ihToken :: Maybe String
             , ihHash  :: Maybe String

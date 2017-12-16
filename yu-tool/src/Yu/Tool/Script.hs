@@ -16,15 +16,15 @@
 --
 
 {-|
-Module:       Yu.Tool.
-Description:  
+Module:       Yu.Tool.Script
+Description:  The scripts for yu
 Copyright:    (C) Qinka 2017
 License:      GPL3
 Maintainer:   me@qinka.pro
 Stability:    experimental
 Portability:  unknown
 
-
+The scripts for yu.
 -}
 
 {-# LANGUAGE RecordWildCards #-}
@@ -38,15 +38,13 @@ import           System.IO
 import           Yu.Tool.Opt
 
 scriptHandler :: Yu -> IO ()
-scriptHandler Script{..} = do
+scriptHandler Script{..} =
   case sptKind of
-    Just "cfg-upgrade" -> do
-      ls <- lines <$> getContents
-      mapM_ (putStrLn . cfgUpgrade) ls
-    Just "cfg-rename" -> do
-      ls <- lines <$> getContents
-      mapM_ (putStrLn . cfgRename) ls
-    Just "make-all" -> putStrLn makeUpdate
+    Just "cfg-upgrade" ->
+      (lines <$> getContents) >>= mapM_ (putStrLn . cfgUpgrade)
+    Just "cfg-rename"  ->
+      (lines <$> getContents) >>= mapM_ (putStrLn . cfgRename)
+    Just "make-all"    -> putStrLn makeUpdate
     _                  -> hPutStrLn stderr "help"
 
 

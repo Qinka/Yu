@@ -68,7 +68,7 @@ instance Functor MakeM where
   fmap f (MakeM mf c) = MakeM mf (f c)
 
 instance Applicative MakeM where
-  pure c = MakeM mempty c
+  pure = MakeM mempty
   (<*>) (MakeM a f) (MakeM b c) = MakeM (a `mappend` b) (f c)
 
 instance Monad MakeM where
@@ -81,6 +81,7 @@ instance (() ~ a) => IsString (MakeM a) where
 instance Show a => Show (MakeM a) where
   show (MakeM mf _) = TL.unpack (toLazyText mf)
 
+-- endline for MakeM
 endLine :: MakeM ()
 endLine = MakeM "\n" ()
 
@@ -95,15 +96,23 @@ linesPrefix prefix (MakeM builder c) =
       new    = foldl (\a b -> a `mappend` singleton '\n' `mappend` b) t ts
   in MakeM new c
 
+-- | transform string(String) to MakeM
 string :: String -> MakeM ()
 string str = MakeM (TB.fromString str) ()
+
+-- | transform the string(Data.Text.Text) to MakeM 
 stringT :: T.Text -> MakeM ()
 stringT str = MakeM (fromText str) ()
+
+-- | transform the string(Data.Text.Text) to MakeM (with end of line)
 stringLnT :: T.Text -> MakeM ()
 stringLnT str = MakeM (fromText str `mappend` "\n") ()
+
+-- | transform the char to MakeM
 charT :: Char -> MakeM ()
 charT c = MakeM (singleton c) ()
 
+-- | create a target rule
 target :: T.Text -- ^ target
        -> [T.Text] -- ^ dependences
        -> MakeM () -- ^ body
@@ -115,15 +124,19 @@ target tar deps body = do
   mapM_ (\t -> charT ' ' >> stringT t) deps >> endLine
   linesPrefix "\t" body
 
+-- | Comments
 comment :: T.Text
         -> MakeM ()
 comment c = linesPrefix "# " (stringT c) >> "\n"
 
+-- | assign the value
 (\=\) :: T.Text -> T.Text -> MakeM ()
 var \=\ value = MakeM (fromText var `mappend` " = " `mappend` fromText value `mappend` singleton '\n') ()
 
+-- | wrap a macro
 macro :: T.Text -> T.Text
 macro str = "${" `T.append` str `T.append` "}"
+-- | call a macro
 macroM :: T.Text -> MakeM ()
 macroM = stringT . macro
 
@@ -147,6 +160,7 @@ curl flags method url settings = do
     "-H \"Authorization:" >> macroM siteToken >> "\" \\\n"
     stringT url
 
+-- curlF to pair
 curlF :: T.Text -- param
       -> T.Text -- value
       -> (T.Text,T.Text) -- pair

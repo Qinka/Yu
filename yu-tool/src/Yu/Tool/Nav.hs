@@ -16,15 +16,15 @@
 --
 
 {-|
-Module:       Yu.Tool.
-Description:  
+Module:       Yu.Tool.Nav
+Description:  codes about the nav bar
 Copyright:    (C) Qinka 2017
 License:      GPL3
 Maintainer:   me@qinka.pro
 Stability:    experimental
 Portability:  unknown
 
-
+codes about the nav bar
 -}
 
 {-# LANGUAGE RecordWildCards #-}
@@ -41,6 +41,7 @@ import           Yu.Tool.Opt               (Yu (navLabel, navOpt, navOrder, navU
 import qualified Yu.Tool.Opt               as O
 import           Yu.Tool.Repo
 
+-- | handler for nav
 navHandler :: O.Yu -> IO ()
 navHandler O.Nav{..} = do
   repo' <- findRepo yuRepoName
