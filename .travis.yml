@@ -20,6 +20,7 @@
 #to use ubuntu 14.04
 sudo: required
 dist: trusty
+group: deprecated-2017Q4
 
 # setting cache
 cache:

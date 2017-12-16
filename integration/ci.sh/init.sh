@@ -52,7 +52,7 @@ fi
 
 ######
 echo login docker
-docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 ######
 echo setting up ghc-$GHC_VER
