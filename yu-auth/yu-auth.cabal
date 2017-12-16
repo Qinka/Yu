@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                yu-auth
-version:             0.1.0.2
+version:             0.1.0.3
 synopsis:            Auth module for Yu.
 description:         Helper of auth via SHA for Yu
 homepage:            https://github.com/Qinka/Yu
@@ -16,9 +16,9 @@ build-type:          Simple
 extra-source-files:  ChangeLog.md
 cabal-version:       >= 1.10
 
-flag client
-     description: For client, disable some function about server.
-     default: False
+flag server-side
+     description: For server, enable some function about server.
+     default: True
                      
 library
   exposed-modules:     Yu.Auth.Core
@@ -30,8 +30,8 @@ library
                      , memory >= 0.14
   hs-source-dirs:      src
   default-language:    Haskell2010
-  if !flag(client)
-     exposed-modules: Yu.Auth
+  if flag(server-side)
+     exposed-modules:  Yu.Auth
      other-extensions: FunctionalDependencies
                        MultiParamTypeClasses
                        OverloadedStrings
@@ -49,7 +49,7 @@ test-suite test-core
                    , yu-auth
                    
 test-suite test-auth
-  if flag(client)
+  if flag(server-side)
      buildable: False
   else
      buildable: True

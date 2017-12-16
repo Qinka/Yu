@@ -46,7 +46,7 @@ import           Yu.Auth.Core
 import           Yu.Import.ByteString   (ByteString)
 import qualified Yu.Import.ByteString   as B
 import qualified Yu.Import.Text as T
-import qualified Data.Application
+import Control.Applicative
 
 -- | The class to limit the an application with it hash algorithm
 --   and the password of the site.
@@ -77,12 +77,12 @@ checkAuth = do -- Handler _ IO
 fetchToken :: Auth site hash
            => HandlerT site IO (Maybe ByteString)
 fetchToken = do
-  ct <- T.encodeUtf8 <$> lookupCookie     "Token"
-  gt <- T.encodeUtf8 <$> lookupGetParam   "Token"
-  pt <- T.encodeUtf8 <$> lookupPostParam  "Token"
+  ct <- fmap T.encodeUtf8 <$> lookupCookie     "Token"
+  gt <- fmap T.encodeUtf8 <$> lookupGetParam   "Token"
+  pt <- fmap T.encodeUtf8 <$> lookupPostParam  "Token"
   ht <-                  lookupHeader     "Token"
-  ca <- T.encodeUtf8 <$> lookupCookie     "Authorization"
-  ga <- T.encodeUtf8 <$> lookupGetParam   "Authorization"
-  pa <- T.encodeUtf8 <$> lookupPostParam  "Authorization"
+  ca <- fmap T.encodeUtf8 <$> lookupCookie     "Authorization"
+  ga <- fmap T.encodeUtf8 <$> lookupGetParam   "Authorization"
+  pa <- fmap T.encodeUtf8 <$> lookupPostParam  "Authorization"
   ha <-                  lookupHeader     "Authorization"
   return $ ca <|> ct <|> pa <|> pt <|> ga <|> gt <|> ha <|> ht
