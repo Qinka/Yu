@@ -15,6 +15,19 @@
 --  along with Yu.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+{-|
+Module:       Yu.Tool.Ih
+Description:  The identifier helper of yu.
+Copyright:    (C) Qinka 2017
+License:      GPL3
+Maintainer:   me@qinka.pro
+Stability:    experimental
+Portability:  unknown
+
+The identifier helper of yu.
+-}
+
+
 {-# LANGUAGE RecordWildCards #-}
 
 module Yu.Tool.Ih
@@ -28,14 +41,13 @@ import qualified Yu.Auth.Core         as A
 import qualified Yu.Import.ByteString as B
 import           Yu.Tool.Opt
 
-
+-- | Identifier helper
 ihHandler :: Yu -> IO ()
-ihHandler Ih{..} =
-  case ihToken of
-    Just token -> do
-      cmds <- getContents
-      put ihDebug $ generateHash token
-    _ ->  hPutStrLn stderr "token required"
+ihHandler Ih{..} = case ihToken of
+  Just token -> do
+    cmds <- getContents
+    put ihDebug $ generateHash token
+  _ ->  hPutStrLn stderr "token required"
   where generateHash  = pack $ case ihHash of
           Just "sha512"      -> A.generateHash SHA512
           Just "sha384"      -> A.generateHash SHA384
