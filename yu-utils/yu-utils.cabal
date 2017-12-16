@@ -24,7 +24,6 @@ library
                        Yu.Import.Aeson
                        Yu.Import.ByteString.Lazy
                        Yu.Import.ByteString
-                       Yu.Import.Catch
                        Yu.Import.Text
                        Yu.Import.TH
                        Yu.Import.Version
