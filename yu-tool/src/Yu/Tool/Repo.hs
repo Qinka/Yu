@@ -145,7 +145,7 @@ makePathRelateRepo :: FilePath -- ^ repo path
 makePathRelateRepo repo item = do
   newSum <- case iSummary item of
         Summary (Left path) ->
-          (return . Summary . Left . makeRelative repo) <$> makeAbsolute path
+          (Summary . Left . makeRelative repo) <$> makeAbsolute path
         _ -> return (iSummary item)
   newCon <- makeRelative repo <$> makeAbsolute (iContent item)
   return item{iSummary = newSum, iContent = newCon}
