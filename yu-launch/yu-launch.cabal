@@ -10,7 +10,7 @@ license:             GPL-3
 license-file:        LICENSE
 author:              Johann Lee
 maintainer:          qinka@live.com
-copyright:           Copyright (C) 2017 Johann Lee
+copyright:           Copyright (C) 2017-2018 Johann Lee <me@qinka.pro>
 category:            Web
 build-type:          Simple
 extra-source-files:  ChangeLog.md

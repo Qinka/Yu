@@ -1,6 +1,8 @@
 # build
 
 #
+# Copyright (C) 2017-2018 Johann Lee <me@qinka.pro>
+#
 # This file is part of Yu.
 #
 # Yu is free software: you can redistribute it and/or modify
