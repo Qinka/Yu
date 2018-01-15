@@ -1,4 +1,6 @@
 {-
+ Coptright (C) 2017-2018 Johann Lee <me@qinka.pro>
+
  This file is part of Yu.
 
  Yu is free software: you can redistribute it and/or modify
@@ -19,7 +21,7 @@
 
 Module      : Yu.Core.Route
 Description : Export the default route configuration of Yu.
-Copyright   : (C) Qinka 2017 - 2018
+Copyright   : (C) 2017 - 2018 Johann Lee
 License     : GPL3
 Maintainer  : me@qinka.pro
 Stability   : experimental
@@ -28,9 +30,9 @@ Portability : unknow
 Export the default router of site.
 -}
 
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE OverloadedStrings     #-}
-{-# LANGUAGE QuasiQuotes           #-}
+{-# LANGUAGE FlexibleContexts  #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes       #-}
 
 module Yu.Core.Route
   ( yuRoute

@@ -1,7 +1,26 @@
+{-
+ Copyright (C) 2017-2018 Johann Lee <me@qinka.pro>
+
+ This file is part of Yu.
+
+ Yu is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Yu is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Yu.  If not, see <http://www.gnu.org/licenses/>.
+-}
+
 {-|
 Module        : Yu.Core.Model.TH
 Description   : To generate the codes about module
-Copyright     : (C) Qinka, 2017
+Copyright     : (C) 2017-2018 Johann Lee <me@qinka.pro>
 Maintainer    : me@qinka.pro
 License       : GPL3
 Stability     : experimental
@@ -10,31 +29,13 @@ Portability   : unknown
 The codes for generate the codes about modules
 -}
 
---
---  This file is part of Yu.
---
---  Yu is free software: you can redistribute it and/or modify
---  it under the terms of the GNU General Public License as published by
---  the Free Software Foundation, either version 3 of the License, or
---  (at your option) any later version.
---
---  Yu is distributed in the hope that it will be useful,
---  but WITHOUT ANY WARRANTY; without even the implied warranty of
---  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---  GNU General Public License for more details.
---
---  You should have received a copy of the GNU General Public License
---  along with Yu.  If not, see <http://www.gnu.org/licenses/>.
---
-
-
 {-# LANGUAGE QuasiQuotes     #-}
 {-# LANGUAGE TemplateHaskell #-}
 
 module Yu.Core.Model.TH
-       ( makeFetch
-       , makeUpdate
-       ) where
+  ( makeFetch
+  , makeUpdate
+  ) where
 
 import           Control.Monad.IO.Class
 import           Data.Char
