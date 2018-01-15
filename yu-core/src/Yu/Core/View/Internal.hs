@@ -78,6 +78,7 @@ layoutBootstrap pageContent hd title nav top bottom = [hamlet|
     <head>
       <title> #{pageTitle pageContent} - #{title}
       <meta charset=utf-8>
+      <script src=prelude.js>
       <meta name=viewport content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
       #{hd}
       ^{pageHead pageContent}
