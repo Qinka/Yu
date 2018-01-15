@@ -15,6 +15,18 @@
 --  along with Yu.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+{-|
+Module:       Yu.Tool.New
+Description:  For command new.
+Copyright:    (C) Qinka 2017
+License:      GPL3
+Maintainer:   me@qinka.pro
+Stability:    experimental
+Portability:  unknown
+
+For command new.
+-}
+
 {-# LANGUAGE RecordWildCards #-}
 
 module Yu.Tool.New
@@ -29,14 +41,14 @@ import qualified Yu.Import.ByteString.Lazy as BL
 import           Yu.Tool.Opt
 import           Yu.Tool.Repo
 
+-- | new item handler
 newHandler :: Yu -> IO ()
 newHandler New{..} = findRepo yuRepoName >>= \repo' -> case repo' of
-  Just repo -> do
-    case (newId,newTyp,newPath,newContent) of
+  Just repo -> case (newId,newTyp,newPath,newContent) of
       (Just nid, Just ntyp, Just npath, Just ncontent) -> do
         sum <- toSummary newSum repo
         cur <- getCurrentTime
-        item <- makePathRelateRepo repo $
+        item <- makePathRelateRepo repo
           Item { iSummary = Summary sum
                , iMIME    = newMIME
                , iPath    = npath

@@ -15,7 +15,18 @@
 --  along with Yu.  If not, see <http://www.gnu.org/licenses/>.
 --
 
---{-# LANGUAGE FlexibleInstances #-}
+{-|
+Module:       Yu.Tool.Make
+Description:  Makefile render.
+Copyright:    (C) Qinka 2017
+License:      GPL3
+Maintainer:   me@qinka.pro
+Stability:    experimental
+Portability:  unknown
+
+Makefile render.
+-}
+
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards   #-}
 
@@ -42,7 +53,7 @@ import           Yu.Tool.Opt                (Yu (Make, mkItem, mkOut))
 import           Yu.Tool.Repo
 
 
-
+-- | render clean command
 mkClean :: MakeM ()
 mkClean = do
   comment "clean"
@@ -51,6 +62,7 @@ mkClean = do
     stringT "@rm -rf .ignore/tmp.*" >> endLine
     echo "Down"
 
+-- | render settings
 mkSettings :: RepoCfg -> MakeM ()
 mkSettings rc = do
   comment "site url"
@@ -65,24 +77,27 @@ mkSettings rc = do
   siteToken \=\ "`cat /dev/null`"
   return ()
 
+-- | render comments
 mkComment :: MakeM ()
 mkComment = do
   "### Yu update Makefile\n" :: MakeM ()
-  "### Copyright (C) 2017\n"
+  "### Copyright (C) 2017-2018\n"
 
+-- | make the item
 makeItem :: Item T.Text -> MakeM ()
 makeItem item =  mkItemUpdate item >> mkItemDel item
 
+-- | make item update items
 mkItemUpdate :: Item T.Text -> MakeM ()
 mkItemUpdate item@Item{..} = do
   let sumDepends = case iSummary of
         (Summary (Left p)) -> [T.pack p]
         _                  -> []
   target iId (iContent:sumDepends) $ do
-    when (not (null sumDepends) && takeExtension (T.unpack $ head sumDepends) /= ".html") $ do
+    when (not (null sumDepends) && takeExtension (T.unpack $ head sumDepends) /= ".html") $
       "@pandoc -t html -o " >> stringT (head sumDepends `T.append` ".htmlout")
         >> " " >> stringT (head sumDepends) >> "\n"
-    when (iType `elem` ["post","frame"] && takeExtension (T.unpack iContent) /= ".html") $ do
+    when (iType `elem` ["post","frame"] && takeExtension (T.unpack iContent) /= ".html") $ 
       "@pandoc -t html -o " >> stringT (iContent `T.append` ".htmlout")
         >> " " >> stringT iContent >> "\n"
     let url = macro siteURL `T.append` iPath
@@ -104,7 +119,7 @@ mkItemUpdate item@Item{..} = do
         mimeF = case iMIME of
           Just m -> [curlF "mime" m]
           _      -> []
-        tagsF = map (\t -> curlF "tag" t) iTags
+        tagsF = map (curlF "tag") iTags
         contentF = return $  case T.toLower iType of
           "post"   -> curlF "html"   ('@' `T.cons` iContent `T.append` (if takeExtension (T.unpack iContent) /= ".html" then ".htmlout" else ""))
           "frame"  -> curlF "html"   ('@' `T.cons` iContent `T.append` (if takeExtension (T.unpack iContent) /= ".html" then ".htmlout" else ""))
@@ -115,13 +130,13 @@ mkItemUpdate item@Item{..} = do
           _        -> error $ "error type" ++ T.unpack iType
     curl "" "PUT" url $ commonF ++ contentF ++ summaryF ++ titleF ++ whoseF ++ mimeF ++ tagsF
 
-
+-- | make delete rule of item
 mkItemDel :: Item T.Text -> MakeM ()
 mkItemDel item@Item{..} = target (iId `T.append` ".del") [] $ do
   let url = macro siteURL `T.append` iPath
   curl "" "DELETE" url [curlF "type" iType]
 
-
+-- | renew the extension
 renewExtensionT :: T.Text -> T.Text -> T.Text
 renewExtensionT path new =
   let (name,ext) = T.breakOnEnd "." path
@@ -129,18 +144,17 @@ renewExtensionT path new =
      then path
      else name `T.append` new
 
+-- | render nav bar list
 makeNavList :: [Nav T.Text] -> MakeM ()
 makeNavList navs = target "navs" [] $ do
   "@" >> curl "" "DELETE" "${SITE_URL}/.query/.nav" [] >> endLine
-  flip mapM_ navs $ \Nav{..} ->
+  forM_ navs $ \Nav{..} ->
     "@" >> curl "" "PUT" "${SITE_URL}/.query/.nav" [ curlF "order" (T.show nOrder)
                                         , curlF "url"            nUrl
                                         , curlF "label"          nLabel
                                         ] >> endLine
 
-
-
-
+-- | make hander
 makeHandler :: Yu -> IO ()
 makeHandler Make{..} = do
   repo' <- findRepo yuRepoName

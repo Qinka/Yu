@@ -15,6 +15,18 @@
 --  along with Yu.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+{-|
+Module:       Yu.Tool.Repo
+Description:  Operations about repo.
+Copyright:    (C) Qinka 2017
+License:      GPL3
+Maintainer:   me@qinka.pro
+Stability:    experimental
+Portability:  unknown
+
+Operations about repo.
+-}
+
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards   #-}
 {-# LANGUAGE TemplateHaskell   #-}
@@ -40,9 +52,9 @@ import           Yu.Import
 import           Yu.Import.Aeson
 import qualified Yu.Import.Text        as T
 
-data RepoCfg = RepoCfg { siteUrl   :: String
-                       }
-             deriving Show
+newtype RepoCfg = RepoCfg { siteUrl :: String
+                          }
+                  deriving Show
 deriveJSON defaultOptions{ fieldLabelModifier = map toLower
                          , constructorTagModifier = map toLower} ''RepoCfg
 
@@ -132,7 +144,8 @@ makePathRelateRepo :: FilePath -- ^ repo path
                    -> IO (Item String)
 makePathRelateRepo repo item = do
   newSum <- case iSummary item of
-        Summary (Left path) -> makeAbsolute path >>= (return . Summary . Left . makeRelative repo)
+        Summary (Left path) ->
+          (Summary . Left . makeRelative repo) <$> makeAbsolute path
         _ -> return (iSummary item)
   newCon <- makeRelative repo <$> makeAbsolute (iContent item)
   return item{iSummary = newSum, iContent = newCon}
