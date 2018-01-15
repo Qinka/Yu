@@ -25,6 +25,7 @@ library
                        Yu.Core.View.Query
                        Yu.Core.View
                        Yu.Core.Info
+                       Yu.Core.Route
                        Yu.Core.Control
                        Yu.Core.Control.Internal
   other-modules:       Paths_yu_core

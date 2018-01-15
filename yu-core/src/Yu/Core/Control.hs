@@ -4,7 +4,6 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE OverloadedStrings     #-}
 {-# LANGUAGE RecordWildCards       #-}
-{-# LANGUAGE QuasiQuotes #-}
 
 {-|
 Module       : Yu.Core.Control
@@ -38,7 +37,6 @@ The control part of the glob.
 
 module Yu.Core.Control
        ( Controly(..)
-       , yuRoute
        , getUrlR
        , putUrlR
        , deleteUrlR
@@ -53,11 +51,6 @@ import qualified Yu.Import.ByteString     as B
 import           Yu.Import.Text           (Text)
 import qualified Yu.Import.Text           as T
 import           Yu.Utils.Handler
-import Yesod.Routes.TH.Types
-
--- | default router
-yuRoute :: [ResourceTree String]
-yuRoute = [parseRoutes| /*Texts UrlR GET PUT DELETE |]
 
 -- | get method router
 getUrlR :: Controly site

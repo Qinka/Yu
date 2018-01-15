@@ -46,6 +46,7 @@ import           Yu.Auth
 import           Yu.Core.Control
 import qualified Yu.Core.Info              as CInfo
 import           Yu.Core.Model
+import           Yu.Core.Route
 import           Yu.Core.View
 import           Yu.Import.Aeson
 import qualified Yu.Import.ByteString      as B
