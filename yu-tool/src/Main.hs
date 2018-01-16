@@ -42,6 +42,7 @@ import           Yu.Tool.Nav
 import           Yu.Tool.New
 import           Yu.Tool.Opt
 import           Yu.Tool.Script
+import           Yu.Tool.Path
 
 
 main :: IO ()
@@ -61,6 +62,7 @@ main = do
             Make{..}   -> makeHandler   it
             Nav{..}    -> navHandler    it
             Script{..} -> scriptHandler it
+            Path{..}   -> pathHandler   it
         otherProg ExitSuccess _ = return ()
         otherProg e1 (fc:fo) = do
           rt <- try $ callProcess ("yu-" ++ fc) fo :: IO (Either ExitCode ())

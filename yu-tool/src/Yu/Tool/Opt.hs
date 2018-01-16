@@ -77,6 +77,8 @@ data Yu = Ih -- ^ identification helper
             { sptKind :: Maybe String
             }
           | Path
+            { pathItem :: Maybe String
+            }
           | Other -- other command
             { oCmds :: [String]
             }
@@ -214,7 +216,12 @@ script = Script { sptKind = def
                 }
 
 path :: Yu
-path = Path
+path = Path { pathItem = def
+              &= help "get the paths"
+              &= typ "label"
+              &= explicit &= name "label"
+              &= explicit &= name "l"
+            }
 
 
 other :: Yu
@@ -232,6 +239,7 @@ yu = modes [ ih
              , make
              , nav
              , script
+             , path
              ]
   &= program "yu"
   &= summary "summary"

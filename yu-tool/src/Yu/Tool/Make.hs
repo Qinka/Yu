@@ -158,10 +158,17 @@ makeNavList navs = target "navs" [] $ do
 
 -- | make hander
 makeHandler :: Yu -> IO ()
-makeHandler Make{..} = do
+makeHandler Make{..} =
+  findRepo yuRepoName
+  >>= (\repo' -> case repo' of
+          Nothing -> hPutStrLn stderr "Can not find out the repo"
+          Just repo -> case mkItem of
+            Just "navlist" 
+            
+          )
   repo' <- findRepo yuRepoName
   case repo' of
-    Nothing -> hPutStrLn stderr "Can not find out the repo"
+    Nothing ->
     Just repo ->
       case mkItem of
         Nothing -> do
@@ -170,7 +177,7 @@ makeHandler Make{..} = do
           if is then do
             rcfg' <- decode <$> BL.readFile cfgPath
             case rcfg' of
-              Nothing -> hPutStrLn stderr "Can not parse the yual config file"
+              Nothing -> hPutStrLn stderr
               Just rcfg ->
                 let text = show $ mkSettings rcfg
                 in case mkOut of
@@ -207,3 +214,21 @@ makeHandler Make{..} = do
             else hPutStrLn stderr $ "Can not find the json file for item file: " ++ item' ++ ".item.json"
 
 
+
+genAll :: BL.ByteString -- ^ Configure file
+        -> (Either String String) -- ^ Error & Texts
+genAll cfg = case decode cfg of
+  Nothing -> Left "Can not parse the yual config file"
+  Just  c -> Right $ show $ mkSettings c
+    
+genItem :: BL.ByteString -- ^ Item
+         -> (Either String String) -- ^ texts
+genItem cfg = case decode cfg of
+  Nothing -> Left "Can not find the json file of item"
+  Just  c -> Right $ show $ makeItem c
+
+genNavList :: BL.ByteString -- ^ nav list item
+            -> (Either String String)
+genNavList cfg = case decode cfg of
+  Nothing -> Left "Can not parse the json file for nav list"
+  Just  c -> Right $ show $ makeNavList
