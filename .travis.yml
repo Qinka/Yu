@@ -1,6 +1,8 @@
 # The config of Travis
 
 #
+# Copyright (C) 2017-2018 Johann Lee <me@qinka.pro>
+#
 # This file is part of Yu.
 #
 # Yu is free software: you can redistribute it and/or modify
@@ -20,7 +22,7 @@
 #to use ubuntu 14.04
 sudo: required
 dist: trusty
-group: deprecated-2017Q4
+
 
 # setting cache
 cache:

@@ -1,13 +1,27 @@
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings     #-}
-{-# LANGUAGE TemplateHaskell       #-}
+{-
+ Copyright (C) 2017-2018 Johann Lee <me@qinka.pro>
+
+ This file is part of Yu.
+
+ Yu is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Yu is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Yu.  If not, see <http://www.gnu.org/licenses/>.
+-}
 
 
 {-|
 Module        : Yu.Core.View.Query
 Description   : The view for query and nav
-Copyright     : (C) Qinka 2017
+Copyright     : (C) 2017-2018 Johann Lee <me@qinka.pro>
 License       : GPLv3+
 Maintainer    : me@qinka.pro
 Stability     : experimental
@@ -16,45 +30,33 @@ Portability   : unknown
 The View part for query command, nav query.
 -}
 
---
---  This file is part of Yu.
---
---  Yu is free software: you can redistribute it and/or modify
---  it under the terms of the GNU General Public License as published by
---  the Free Software Foundation, either version 3 of the License, or
---  (at your option) any later version.
---
---  Yu is distributed in the hope that it will be useful,
---  but WITHOUT ANY WARRANTY; without even the implied warranty of
---  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---  GNU General Public License for more details.
---
---  You should have received a copy of the GNU General Public License
---  along with Yu.  If not, see <http://www.gnu.org/licenses/>.
---
 
 
+{-# LANGUAGE FlexibleContexts      #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE TemplateHaskell       #-}
 
 module Yu.Core.View.Query
-       ( -- * querys
-         -- ** query version
-         queryVersion
-       , queryVersionAuthor
-       , queryVersionUtils
-       , queryVersionCore
-       , -- ** name
-         queryName
-       , -- ** build info
-         queryBuildInfo
-       , -- ** server time
-         queryServerTime
-       , -- ** navbar
-         queryNav
-       , -- ** index
-         queryIndex
-       , -- ** normal query
-         queryQuery
-       ) where
+  ( -- * querys
+    -- ** query version
+    queryVersion
+  , queryVersionAuthor
+  , queryVersionUtils
+  , queryVersionCore
+  , -- ** name
+    queryName
+  , -- ** build info
+    queryBuildInfo
+  , -- ** server time
+    queryServerTime
+  , -- ** navbar
+    queryNav
+  , -- ** index
+    queryIndex
+  , -- ** normal query
+    queryQuery
+  ) where
 
 import           Data.Time
 import           Yesod.Core

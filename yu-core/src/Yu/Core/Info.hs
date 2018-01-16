@@ -1,10 +1,27 @@
-{-# OPTIONS_HADDOCK hide #-}
-{-# LANGUAGE TemplateHaskell #-}
+
+{-
+Copyright (C) 2017-2018 Johann Lee <me@qinka.pro>
+
+ This file is part of Yu.
+
+ Yu is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Yu is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Yu.  If not, see <http://www.gnu.org/licenses/>.
+-}
 
 {-|
 Module        : Yu.Core.Info
 Description   : THe info of this package
-Copyright     : Qinka 2017
+Copyright     : (C) 2017-2018 Johann Lee <me@qinka.pro>
 License       : GPL-3
 Maintainer    : qinka@live.com
                 me@qinka.pro
@@ -14,35 +31,19 @@ Portability   : x86/64
 The information of thos package, such as version, git commit-id.
 -}
 
---
---  This file is part of Yu.
---
---  Yu is free software: you can redistribute it and/or modify
---  it under the terms of the GNU General Public License as published by
---  the Free Software Foundation, either version 3 of the License, or
---  (at your option) any later version.
---
---  Yu is distributed in the hope that it will be useful,
---  but WITHOUT ANY WARRANTY; without even the implied warranty of
---  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---  GNU General Public License for more details.
---
---  You should have received a copy of the GNU General Public License
---  along with Yu.  If not, see <http://www.gnu.org/licenses/>.
---
-
-
+{-# OPTIONS_HADDOCK hide #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 
 
 module Yu.Core.Info
-       ( -- * TemplateHaskell's variables
-         yuCoreVersion
-       , yuCoreVersionQuote
-       , yuCoreGitBranchQuote
-       , yuCoreGitCommitQuote
-       , yuBuildInfoQuote
-       ) where
+  ( -- * TemplateHaskell's variables
+    yuCoreVersion
+  , yuCoreVersionQuote
+  , yuCoreGitBranchQuote
+  , yuCoreGitCommitQuote
+  , yuBuildInfoQuote
+  ) where
 
 import           Data.Char
 import           Data.Time

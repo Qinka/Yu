@@ -1,7 +1,26 @@
+{-
+ Copyright (C) 2017-2018 Johann Lee <me@qinka.pro>
+
+ This file is part of Yu.
+
+ Yu is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Yu is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Yu.  If not, see <http://www.gnu.org/licenses/>.
+-}
+
 {-|
 Model         : Yu.Core.Model.Internal
 Description   : The basic methods for model and types
-Copyright     : (C) Qinka 2017
+Copyright     : (C) 2017-2018 Johann Lee <me@qinka.pro>
 License       : GPL3
 Maintainer    : me@qinka.pro
 Stability     : experimental
@@ -9,23 +28,6 @@ Portability   : unknown
 
 The basic method and type for model in MVC
 -}
-
---
---  This file is part of Yu.
---
---  Yu is free software: you can redistribute it and/or modify
---  it under the terms of the GNU General Public License as published by
---  the Free Software Foundation, either version 3 of the License, or
---  (at your option) any later version.
---
---  Yu is distributed in the hope that it will be useful,
---  but WITHOUT ANY WARRANTY; without even the implied warranty of
---  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---  GNU General Public License for more details.
---
---  You should have received a copy of the GNU General Public License
---  along with Yu.  If not, see <http://www.gnu.org/licenses/>.
---
 
 {-# LANGUAGE FlexibleContexts       #-}
 {-# LANGUAGE FunctionalDependencies #-}
@@ -35,33 +37,33 @@ The basic method and type for model in MVC
 {-# LANGUAGE TypeFamilies           #-}
 
 module Yu.Core.Model.Internal
-       ( -- * navigation bar
-         Nav(..)
-       , navToDoc
-       , docToNav
-       , -- * the resource
-         ResT(..)
-       , resToDoc
-       , docToRes
-       , -- * transform
-         fromBinary
-       , -- * about mongoDB
-         Mongodic(..)
-       , ConnectionPool
-       , fetchContext
-       , fetchRes
-       , fetchResAll
-       , updateContext
-       , updateItem
-       , updateRes
-       , deleteContext
-       , deleteItem
-       , deleteRes
-       , deleteContextMaybe
-       , (=@)
-       , module Database.MongoDB
-       , module Data.Pool
-       ) where
+  ( -- * navigation bar
+    Nav(..)
+  , navToDoc
+  , docToNav
+  , -- * the resource
+    ResT(..)
+  , resToDoc
+  , docToRes
+  , -- * transform
+    fromBinary
+  , -- * about mongoDB
+    Mongodic(..)
+  , ConnectionPool
+  , fetchContext
+  , fetchRes
+  , fetchResAll
+  , updateContext
+  , updateItem
+  , updateRes
+  , deleteContext
+  , deleteItem
+  , deleteRes
+  , deleteContextMaybe
+  , (=@)
+  , module Database.MongoDB
+  , module Data.Pool
+  ) where
 
 import           Control.Monad.IO.Class
 import           Control.Monad.Trans.Control
