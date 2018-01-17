@@ -26,6 +26,7 @@ executable yu
                        Yu.Tool.MakeM
                        Yu.Tool.Nav
                        Yu.Tool.Del
+                       Yu.Tool.Helper
                        Yu.Tool.Init
                        Yu.Tool.New
                        Yu.Tool.Script

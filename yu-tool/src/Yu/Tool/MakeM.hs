@@ -77,6 +77,14 @@ instance Monad MakeM where
   (>>=) (MakeM a c) f = let MakeM b t = f c
                         in MakeM (a `mappend` b) t
 
+instance Monoid a =>  Monoid (MakeM a) where
+  mempty = MakeM { mkBuilder  = mempty
+                 , mkConstant = mempty
+                 }
+  mappend a b = MakeM  { mkBuilder  = mkBuilder a `mappend` mkBuilder b
+                       , mkConstant = mkConstant a `mappend` mkConstant b
+                       }
+
 instance (() ~ a) => IsString (MakeM a) where
   fromString str = MakeM (TB.fromString str) undefined
 

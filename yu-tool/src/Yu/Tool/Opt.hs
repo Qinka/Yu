@@ -76,8 +76,8 @@ data Yu = Ih -- ^ identification helper
           | Script -- ^ about script
             { sptKind :: Maybe String
             }
-          | Path
-            { pathItem :: Maybe String
+          | Helper
+            { hperItem :: Maybe String
             }
           | Other -- other command
             { oCmds :: [String]
@@ -215,13 +215,13 @@ script = Script { sptKind = def
                   &= explicit &= name "k"
                 }
 
-path :: Yu
-path = Path { pathItem = def
-              &= help "get the paths"
-              &= typ "label"
-              &= explicit &= name "label"
-              &= explicit &= name "l"
-            }
+helper :: Yu
+helper = Helper { hperItem = def
+                &= help "get the item of helper"
+                &= typ "label"
+                &= explicit &= name "label"
+                &= explicit &= name "l"
+              }
 
 
 other :: Yu
@@ -239,7 +239,7 @@ yu = modes [ ih
              , make
              , nav
              , script
-             , path
+             , helper
              ]
   &= program "yu"
   &= summary "summary"

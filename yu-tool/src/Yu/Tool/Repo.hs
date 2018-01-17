@@ -42,7 +42,9 @@ module Yu.Tool.Repo
   , makeAbsoluteRepoT
   , makePathRelateRepo
   , yuRepoName
-  , yuRepoNameT
+  , yuItemExt
+  , yuRepoCfg
+  , yuNavList
   ) where
 
 import           Data.Char             (toLower)
@@ -52,6 +54,7 @@ import           System.Directory
 import           System.FilePath.Posix (makeRelative)
 import           Yu.Import
 import           Yu.Import.Aeson
+import           Data.String
 import qualified Yu.Import.Text        as T
 
 newtype RepoCfg = RepoCfg { siteUrl :: String
@@ -135,11 +138,17 @@ makeAbsoluteRepoT repo item =
         _                -> iSummary item
   in item { iSummary = newSum, iContent = newCon}
 
-yuRepoName :: String
+yuRepoName :: IsString a => a
 yuRepoName = ".yu"
-yuRepoNameT :: T.Text
-yuRepoNameT = ".yu"
 
+yuItemExt :: IsString a => a
+yuItemExt = ".item.json"
+
+yuRepoCfg :: IsString a => a
+yuRepoCfg = "yual.json"
+
+yuNavList :: IsString a => a
+yuNavList = "navlist.json"
 
 makePathRelateRepo :: FilePath -- ^ repo path
                    -> Item String

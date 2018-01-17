@@ -67,6 +67,8 @@ mkClean = do
 -- | render settings
 mkSettings :: RepoCfg -> MakeM ()
 mkSettings rc = do
+  mkComment
+  mkClean
   comment "site url"
   siteURL \=\ T.pack (siteUrl rc)
   comment $   "curl settings\n"
@@ -158,77 +160,94 @@ makeNavList navs = target "navs" [] $ do
 
 -- | make hander
 makeHandler :: Yu -> IO ()
-makeHandler Make{..} =
-  findRepo yuRepoName
-  >>= (\repo' -> case repo' of
-          Nothing -> hPutStrLn stderr "Can not find out the repo"
-          Just repo -> case mkItem of
-            Just "navlist" 
-            
-          )
+makeHandler Make{..} = do
   repo' <- findRepo yuRepoName
   case repo' of
-    Nothing ->
-    Just repo ->
-      case mkItem of
-        Nothing -> do
-          let cfgPath = repo ++ "/.yu/yual.json"
-          is <- doesFileExist cfgPath
-          if is then do
-            rcfg' <- decode <$> BL.readFile cfgPath
-            case rcfg' of
-              Nothing -> hPutStrLn stderr
-              Just rcfg ->
-                let text = show $ mkSettings rcfg
-                in case mkOut of
-                  Nothing   -> putStrLn text
-                  Just file -> appendFile (repo ++ "/" ++ file) text
-            else hPutStrLn stderr $ "Can not find file: " ++ cfgPath
-        Just "navlist" -> do
-          let navsPath = repo ++ "/.yu/navlist.json"
-          is <- doesFileExist navsPath
-          if is
-            then do
-            navs' <- decode <$> BL.readFile (repo ++ "/.yu/navlist.json")
-            case navs' of
-              Nothing   -> hPutStrLn stderr "Can not parse the json file for nav list"
-              Just navs ->
-                let text = show $ makeNavList navs
-                in case mkOut of
-                  Nothing   -> putStrLn text
-                  Just file -> appendFile (repo ++ "/" ++ file) text
-            else hPutStrLn stderr "Can not find the json file for nav-list"
-        Just item' -> do
-          let itemPath = repo ++ "/.yu/" ++ item' ++ ".item.json"
-          is <- doesFileExist itemPath
-          if is then do
-            itemMaybe <- decode <$> BL.readFile itemPath
-            case itemMaybe of
-              Nothing -> hPutStrLn stderr "Can not find the json file of item"
-              Just item'' -> do
-                let item = makeAbsoluteRepoT repo item''
-                    text = show $ makeItem item''
-                case mkOut of
-                  Nothing   -> putStrLn text
-                  Just file -> appendFile (repo ++ "/" ++ file) text
-            else hPutStrLn stderr $ "Can not find the json file for item file: " ++ item' ++ ".item.json"
+    Nothing -> hPutStrLn stderr "Can not find out the repo"
+    Just repo -> do
+      let repoCfg = repo ++ "/" ++ yuRepoName
+      genRt <- case mkItem of
+        Just "navlist" -> createNavList repoCfg
+        Just "head"    -> createHead    repoCfg
+        item           -> createItems   repoCfg item
+      case genRt of
+        Left  e -> hPutStrLn stderr e
+        Right m ->
+          let text = show m
+          in case mkOut of
+            Nothing -> putStrLn text
+            Just fl -> appendFile (repo ++ "/" ++ fl) text
+
+matchItemExt :: String -> Bool
+matchItemExt str =
+  let checkLen = (length str > length yie)
+      equal    = drop (length str - length yie) str == yuItemExt
+  in checkLen && equal
+  where yie :: String
+        yie = yuItemExt
+
+listItems :: FilePath -- ^ repo cfg path
+          -> IO [String]
+listItems p = map (\x -> take (length x - length yie) x)
+  . filter matchItemExt <$> listDirectory p
+  where yie :: String
+        yie = yuItemExt
 
 
+createItems :: FilePath -- ^ repo cfg path
+            -> Maybe String -- ^ item 
+            -> IO (Either String (MakeM ()))
+createItems repo item = do
+  let f = case item of
+            Nothing -> const True
+            Just  i -> (== i)
+  list <- filter f <$> listItems repo
+  if null list
+    then return $ Left "Can not find the item."
+    else createItemStep mempty list
+  where createItemStep mk [] = return $ Right mk
+        createItemStep mk (i:is) = do
+          file <- BL.readFile $ repo ++ "/" ++ i ++ yuItemExt
+          case genItem file of
+            Left  e -> return $ Left e
+            Right m -> createItemStep (mk `mappend` m) is
 
-genAll :: BL.ByteString -- ^ Configure file
-        -> (Either String String) -- ^ Error & Texts
-genAll cfg = case decode cfg of
+createHead :: FilePath -- ^ repo cfg path
+           -> IO (Either String (MakeM ()))
+createHead repo = do
+  let cfgP = repo ++ "/" ++ yuRepoCfg
+  exist <- doesFileExist cfgP
+  if exist
+    then do
+    file <- BL.readFile cfgP
+    return $ genHead file
+    else return $ Left "Repo configure file do not exist"
+
+createNavList :: FilePath -- ^ repo cfg path
+              -> IO (Either String (MakeM ()))
+createNavList repo = do
+  let nlP = repo ++ yuNavList
+  exist <- doesFileExist nlP
+  if exist
+    then do
+    file <- BL.readFile nlP
+    return $ genNavList file
+    else return $ Left "Repo navlist can not find"
+
+genHead :: BL.ByteString -- ^ Configure file
+       -> Either String (MakeM ()) -- ^ Error & Texts
+genHead cfg = case decode cfg of
   Nothing -> Left "Can not parse the yual config file"
-  Just  c -> Right $ show $ mkSettings c
+  Just  c -> Right $ mkSettings c
     
 genItem :: BL.ByteString -- ^ Item
-         -> (Either String String) -- ^ texts
+        -> Either String (MakeM ()) -- ^ texts
 genItem cfg = case decode cfg of
   Nothing -> Left "Can not find the json file of item"
-  Just  c -> Right $ show $ makeItem c
+  Just  c -> Right $ makeItem c
 
 genNavList :: BL.ByteString -- ^ nav list item
-            -> (Either String String)
+           -> Either String (MakeM ())
 genNavList cfg = case decode cfg of
   Nothing -> Left "Can not parse the json file for nav list"
-  Just  c -> Right $ show $ makeNavList
+  Just  c -> Right $ makeNavList c

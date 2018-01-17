@@ -18,8 +18,8 @@
 -}
 
 {-|
-Module:       Yu.Tool.Path
-Description:  The helper of the path
+Module:       Yu.Tool.Helper
+Description:  The helpers of the tool
 Copyright:    (C) 2017-2018 Johann Lee <me@qinka.pro>
 License:      GPL3
 Maintainer:   me@qinka.pro
@@ -32,8 +32,8 @@ The identifier helper of yu.
 
 {-# LANGUAGE RecordWildCards #-}
 
-module Yu.Tool.Path
-  ( pathHandler
+module Yu.Tool.Helper
+  ( helperHandler
   ) where
 
 import Data.Maybe
@@ -41,6 +41,7 @@ import           Yu.Tool.Repo
 import           Yu.Tool.Opt
 
 -- | Identifier helper
-pathHandler :: Yu -> IO ()
-pathHandler Path{..} =
-  (fromMaybe "") <$> findRepo yuRepoName >>= putStrLn
+helperHandler :: Yu -> IO ()
+helperHandler Helper{..} = case hperItem of
+  Just "path" -> (fromMaybe "") <$> findRepo yuRepoName >>= putStrLn
+  Nothing -> putStrLn "help info"
