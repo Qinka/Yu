@@ -4,9 +4,9 @@ _yu_item_fetch() {
     local -a sed_path
     repo_path=`yu helper --label=path`
     sed_path=`echo $repo_path | sed 's/\\//\\\\\\//g'`
-    del_items=(`yu helper --label=path`/.yu/*.item.json)
-    del_items=`echo $del_items | sed "s/$sed_path\\/\\.yu\///g" | sed 's/\.item\.json//g'`
-    echo $del_items
+    list_items=(`yu helper --label=path`/.yu/*.item.json)
+    list_items=`echo $list_items | sed "s/$sed_path\\/\\.yu\///g;"'s/\.item\.json//g'`
+    echo $list_items
 }
 
 _yu_command_helper() {
@@ -41,9 +41,9 @@ _yu_command_helper() {
                         {-k,--type=}'[TYPE the type of item]:new_item_kind:->new_item_kinds' \
                         {-u,--url=}'[URL the url of item]' \
                         {-h,--title=}'[TEXT the title of item]' \
-                        {-m,--mime=}'[MIME the mime of item]new_item_mime:->new_item_mimes' \
+                        {-m,--mime=}'[MIME the mime of item]:new_item_mime:->new_item_mimes' \
                         '*'{-t,--tag=}'[TAG the tag of item]' \
-                        {-s,--summary=}'[TEXT|FILE the summary of item]:new_item:sum:->new_item_sums' \
+                        {-s,--summary=}'[TEXT|FILE the summary of item]:new_item_sum:->new_item_sums' \
                         {-c,--content=}'[FILE the content of item]:new_item_con:->new_item_cons' \
                         {-w,--whose=}'[OWNER the owner]' \
                         && ret=0
@@ -51,7 +51,7 @@ _yu_command_helper() {
                 (ih)
                     _arguments \
                         {-t,--token=}'[TOKEN the token of identifying]' \
-                        {-h,--hash=}'[HASH the hash of algorithm]:ih_hash:ih_hashs' \
+                        {-h,--hash=}'[HASH the hash of algorithm]:ih_hash:->ih_hashs' \
                         {-d,--debug}'[Debug it]' \
                         && ret=0
                     ;;
@@ -75,7 +75,7 @@ _yu_command_helper() {
                 (nav)
                     _arguments \
                         {-o,--opt=}'[add|del  opt]:nav_opt:->nav_opts' \
-                        {-l,--label=}'[LABEL]:nav_label:->nav_labels' \
+                        {-l,--label=}'[LABEL]:nav_lable:->nav_labels' \
                         {-r,--order=}'[INT order]' \
                         {-u,--url=}'[URL name]' \
                         && ret=0
@@ -83,7 +83,7 @@ _yu_command_helper() {
 
                 (script)
                     _arguments \
-                        {-k,--kind=}'[TEXT script]::->scripts' \
+                        {-k,--kind=}'[TEXT script]:script:->scripts' \
                         && ret=0
                     ;;
                 (helper)
@@ -94,7 +94,8 @@ _yu_command_helper() {
             esac
             case $state in
                 (new_item_kinds)
-                    _values "post"     \
+                    _values "types"    \
+                            "post"     \
                             "binary"   \
                             "text"     \
                             "frame"    \
@@ -102,7 +103,8 @@ _yu_command_helper() {
                             "query"
                 ;;
                 (new_item_mimes)
-                    _values "application/pdf"          \
+                    _values "MIMEs"                    \
+                            "application/pdf"          \
                             "application/x-javascript" \
                             "audio/mpeg"               \
                             "image/bmp"                \
@@ -114,46 +116,43 @@ _yu_command_helper() {
                             "text/plain"
                     ;;
                 (new_item_sums)
-                    local -a sum_files
-                    sum_files=(**/**)
-                    _multi_parts / sum_files
-                ;;
+                    _path_files
+                    ;;
                 (new_item_cons)
-                    local -a cons_files
-                    cons_files=(**/**)
-                    _multi_parts / cons_files
+                    _path_files
                 ;;
                 (ih_hashs)
-                    _values "sha256"
+                    _values "hash" "sha256"
                 ;;
                 (del_items)
                     local -a del_items
                     del_items=`_yu_item_fetch`
-                    _multi_parts / del_items
-                ;;
+                    _values "items" "$=del_items"
+                    ;;
                 (make_items)
                     local -a make_items
                     make_items=`_yu_item_fetch`
-                    _multi_parts / make_items
+                    _values "items" "$=make_items"
                 ;;
                 (make_outs)
-                    local -a make_outs
-                    make_ours=(**/*.mk)
-                    _multi_parts / make_outs
+                    _path_files -g *.mk
                 ;;
                 (nav_opts)
-                    _values "add" \
+                    _values "opts" \
+                            "add" \
                             "del"
                 ;;
                 (nav_labels)
                 ;;
                 (scripts)
-                    _values "make-all"    \
+                    _values "scripts"     \
+                            "make-all"    \
                             "cfg-rename"  \
                             "cfg-upgrade"
                     ;;
                 (helpers)
-                    _values "flags" \
+                    _values "helper types" \
+                            "flags"        \
                             "path"
                     ;;
             esac
