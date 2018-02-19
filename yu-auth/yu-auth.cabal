@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                yu-auth
-version:             0.1.0.3
+version:             0.1.1.10
 synopsis:            Auth module for Yu.
 description:         Helper of auth via SHA for Yu
 homepage:            https://github.com/Qinka/Yu

@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                yu-tool
-version:             0.1.0.2
+version:             0.1.1.30
 synopsis:            Tool for Yu
 description:         Tool for Yu
 homepage:            https://github.com/Qinka/Yu

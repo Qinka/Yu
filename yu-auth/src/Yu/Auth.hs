@@ -44,13 +44,14 @@ module Yu.Auth
     module Yu.Auth.Core
   ) where
 
+
+import           Control.Applicative
 import           Control.Monad.IO.Class
 import           Yesod.Core
 import           Yu.Auth.Core
 import           Yu.Import.ByteString   (ByteString)
 import qualified Yu.Import.ByteString   as B
 import qualified Yu.Import.Text as T
-import Control.Applicative
 
 -- | The class to limit the an application with it hash algorithm
 --   and the password of the site.

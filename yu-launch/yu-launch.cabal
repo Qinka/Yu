@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                yu-launch
-version:             0.1.0.6
+version:             0.1.1.0
 synopsis:            The launcher for Yu.
 description:         The launcher for Yu.
 homepage:            https://github.com/Qinka/Yu
