@@ -22,9 +22,9 @@ executable yu-launch
                        Yu.Launch
                        Yu.Launch.Internal
   build-depends:       base >= 4 && < 5
-                     , yu-utils == 0.1.0.*
-                     , yu-auth  == 0.1.0.*
-                     , yu-core  == 0.1.0.*
+                     , yu-utils == 0.1.1.*
+                     , yu-auth  == 0.1.1.*
+                     , yu-core  == 0.1.1.*
                      , cmdargs >= 0.10.10
                      , yaml
   hs-source-dirs:      src
