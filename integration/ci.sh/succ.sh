@@ -97,6 +97,8 @@ echo build docker
 cd docker.tmp
 
 docker build -t qinka/yu:$IMAGE_TAG .
-docker tag      qinka/yu:$IMAGE_TAG qinka/yu:$IMAGE_LATEST
+if [ -n "$IMAGE_LATEST" ]; then
+    docker tag      qinka/yu:$IMAGE_TAG qinka/yu:$IMAGE_LATEST
+fi
 docker push  qinka/yu
 
