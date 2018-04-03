@@ -84,7 +84,7 @@ layoutBootstrap pageContent hd title nav top bottom = [hamlet|
       <meta charset=utf-8>
       <script src=prelude.js>
       <meta name=viewport content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+      <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML async></script>
       #{hd}
       ^{pageHead pageContent}
     <body>
