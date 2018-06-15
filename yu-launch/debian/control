@@ -1,0 +1,37 @@
+Source: haskell-yu-launch
+Maintainer: Johann Lee <me@qinka.pro>
+Uploaders: Johann Lee <me@qinka.pro>
+Priority: extra
+Section: haskell
+Build-Depends: debhelper (>= 9),
+ haskell-devscripts (>= 0.8),
+ cdbs,
+ ghc,
+ ghc-prof,
+ libghc-cmdargs-dev (>= 0.10.10),
+ libghc-yaml-dev,
+ libghc-yu-auth-dev (>= 0.1.1),
+ libghc-yu-auth-dev (<< 0.1.2),
+ libghc-yu-core-dev (>= 0.1.1),
+ libghc-yu-core-dev (<< 0.1.2),
+ libghc-yu-utils-dev (>= 0.1.1),
+ libghc-yu-utils-dev (<< 0.1.2),
+Standards-Version: 3.9.6
+Homepage: https://github.com/Qinka/Yu
+X-Description: The launcher for Yu.
+ The launcher for Yu.
+
+Package: haskell-yu-launch-utils
+Architecture: any
+Section: misc
+Depends: ${haskell:Depends},
+ ${misc:Depends},
+ libyaml-0-2, 
+Recommends: ${haskell:Recommends},
+Suggests: ${haskell:Suggests},
+Conflicts: ${haskell:Conflicts},
+Provides: ${haskell:Provides},
+Description: ${haskell:ShortDescription}${haskell:ShortBlurb}
+ ${haskell:LongDescription}
+ .
+ ${haskell:Blurb}

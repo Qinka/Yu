@@ -1,0 +1,5 @@
+haskell-yu-tool (0.1.1.30-distro()1) distro(); urgency=medium
+
+  * https://github.com/Qinka/yu yu-tool
+
+ -- Johann Lee <me@qinka.pro>  esyscmd(`date -R')

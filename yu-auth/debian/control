@@ -1,0 +1,74 @@
+Source: haskell-yu-auth
+Maintainer: Johann Lee <me@qinka.pro>
+Uploaders: Johann Lee <me@qinka.pro>
+Priority: extra
+Section: haskell
+Build-Depends: debhelper (>= 9),
+ haskell-devscripts (>= 0.8),
+ cdbs,
+ ghc,
+ ghc-prof,
+ libghc-cryptonite-dev (>= 0.20),
+ libghc-cryptonite-prof (>= 0.20),
+ libghc-memory-dev (>= 0.14),
+ libghc-memory-prof (>= 0.14),
+ libghc-yu-utils-dev (>= 0.1.1),
+ libghc-yu-utils-dev (<< 0.1.2),
+ libghc-yu-utils-prof (>= 0.1.1),
+ libghc-yu-utils-prof (<< 0.1.2),
+ libghc-monadrandom-dev,
+ libghc-hspec-dev (>= 2.0),
+ libghc-hspec-wai-dev (>= 0.6),
+ libghc-random-dev,
+ libghc-wai-dev (>= 3.2),
+ libghc-yesod-core-dev (>= 1.4.30),
+ libghc-yesod-test-dev (>= 1.5),
+ libghc-yu-utils-dev,
+Build-Depends-Indep: ghc-doc,
+ libghc-cryptonite-doc,
+ libghc-memory-doc,
+ libghc-yu-utils-doc,
+Standards-Version: 3.9.6
+Homepage: https://github.com/Qinka/Yu
+X-Description: Auth module for Yu.
+ Helper of auth via SHA for Yu
+
+Package: libghc-yu-auth-dev
+Architecture: any
+Depends: ${haskell:Depends},
+ ${misc:Depends},
+ ${shlibs:Depends},
+Recommends: ${haskell:Recommends},
+Suggests: ${haskell:Suggests},
+Conflicts: ${haskell:Conflicts},
+Provides: ${haskell:Provides},
+Description: ${haskell:ShortDescription}${haskell:ShortBlurb}
+ ${haskell:LongDescription}
+ .
+ ${haskell:Blurb}
+
+Package: libghc-yu-auth-prof
+Architecture: any
+Depends: ${haskell:Depends},
+ ${misc:Depends},
+Recommends: ${haskell:Recommends},
+Suggests: ${haskell:Suggests},
+Conflicts: ${haskell:Conflicts},
+Provides: ${haskell:Provides},
+Description: ${haskell:ShortDescription}${haskell:ShortBlurb}
+ ${haskell:LongDescription}
+ .
+ ${haskell:Blurb}
+
+Package: libghc-yu-auth-doc
+Architecture: all
+Section: doc
+Depends: ${haskell:Depends},
+ ${misc:Depends},
+Recommends: ${haskell:Recommends},
+Suggests: ${haskell:Suggests},
+Conflicts: ${haskell:Conflicts},
+Description: ${haskell:ShortDescription}${haskell:ShortBlurb}
+ ${haskell:LongDescription}
+ .
+ ${haskell:Blurb}

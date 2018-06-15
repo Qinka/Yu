@@ -1,0 +1,5 @@
+haskell-yu-core (0.1.1.2-distro()1) distro(); urgency=medium
+
+  * https://github.com/Qinka/yu yu-core
+
+ -- Johann Lee <me@qinka.pro>  esyscmd(`date -R')

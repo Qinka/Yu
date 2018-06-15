@@ -1,0 +1,5 @@
+haskell-yu-launch (0.1.1.0-distro()1) distro(); urgency=medium
+
+  * https://github.com/Qinka/yu yu-launch
+
+ -- Johann Lee <me@qinka.pro>  Fri, 15 Jun 2018 10:34:09 +0800

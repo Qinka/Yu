@@ -1,0 +1,5 @@
+haskell-yu-auth (0.1.1.10-distro()1) distro(); urgency=medium
+
+  * https://github.com/Qinka/yu yu-auth
+
+ -- Johann Lee <me@qinka.pro>  esyscmd(`date -R')

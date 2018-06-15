@@ -1,0 +1,129 @@
+Source: haskell-yu-utils
+Maintainer: Johann Lee <me@qinka.pro>
+Uploaders: Johann Lee <me@qinka.pro>
+Priority: extra
+Section: haskell
+Build-Depends: debhelper (>= 9),
+ haskell-devscripts (>= 0.8),
+ cdbs,
+ ghc,
+ ghc-prof,
+ libghc-aeson-dev (>= 1),
+ libghc-aeson-prof (>= 1),
+ libghc-blaze-html-dev (>= 0.8),
+ libghc-blaze-html-prof (>= 0.8),
+ libghc-blaze-markup-dev (>= 0.7),
+ libghc-blaze-markup-prof (>= 0.7),
+ libghc-cmdargs-dev (>= 0.10),
+ libghc-cmdargs-prof (>= 0.10),
+ libghc-conduit-dev (>= 1.2),
+ libghc-conduit-prof (>= 1.2),
+ libghc-exceptions-dev (>= 0.8),
+ libghc-exceptions-prof (>= 0.8),
+ libghc-fast-logger-dev (>= 2.4),
+ libghc-fast-logger-prof (>= 2.4),
+ libghc-gitrev-dev (>= 1.2),
+ libghc-gitrev-prof (>= 1.2),
+ libghc-http-types-dev (>= 0.9),
+ libghc-http-types-prof (>= 0.9),
+ libghc-monad-control-dev (>= 1.0.1),
+ libghc-monad-control-prof (>= 1.0.1),
+ libghc-monad-logger-dev (>= 0.3.19),
+ libghc-monad-logger-prof (>= 0.3.19),
+ libghc-mongodb-dev (>= 2.1),
+ libghc-mongodb-prof (>= 2.1),
+ libghc-mtl-dev (>= 2.2),
+ libghc-mtl-prof (>= 2.2),
+ libghc-network-dev (>= 2.6.2),
+ libghc-network-prof (>= 2.6.2),
+ libghc-parsec3-dev (>= 3.1.10),
+ libghc-parsec3-prof (>= 3.1.10),
+ libghc-resource-pool-dev (>= 0.2.3),
+ libghc-resource-pool-prof (>= 0.2.3),
+ libghc-shakespeare-dev (>= 2.0.13),
+ libghc-shakespeare-prof (>= 2.0.13),
+ libghc-signal-dev (>= 0.1.0.3),
+ libghc-signal-prof (>= 0.1.0.3),
+ libghc-text-dev (>= 1.2),
+ libghc-text-prof (>= 1.2),
+ libghc-wai-dev (>= 3.2),
+ libghc-wai-prof (>= 3.2),
+ libghc-wai-extra-dev (>= 3.0.15),
+ libghc-wai-extra-prof (>= 3.0.15),
+ libghc-wai-logger-dev (>= 2.3),
+ libghc-wai-logger-prof (>= 2.3),
+ libghc-warp-dev (>= 3.2.7),
+ libghc-warp-prof (>= 3.2.7),
+ libghc-xml-hamlet-dev (>= 0.4.0.10),
+ libghc-xml-hamlet-prof (>= 0.4.0.10),
+ libghc-yesod-core-dev (>= 1.4.30),
+ libghc-yesod-core-prof (>= 1.4.30),
+Build-Depends-Indep: ghc-doc,
+ libghc-aeson-doc,
+ libghc-blaze-html-doc,
+ libghc-blaze-markup-doc,
+ libghc-cmdargs-doc,
+ libghc-conduit-doc,
+ libghc-exceptions-doc,
+ libghc-fast-logger-doc,
+ libghc-gitrev-doc,
+ libghc-http-types-doc,
+ libghc-monad-control-doc,
+ libghc-monad-logger-doc,
+ libghc-mongodb-doc,
+ libghc-mtl-doc,
+ libghc-network-doc,
+ libghc-parsec3-doc,
+ libghc-resource-pool-doc,
+ libghc-shakespeare-doc,
+ libghc-signal-doc,
+ libghc-text-doc,
+ libghc-wai-doc,
+ libghc-wai-extra-doc,
+ libghc-wai-logger-doc,
+ libghc-warp-doc,
+ libghc-xml-hamlet-doc,
+ libghc-yesod-core-doc,
+Standards-Version: 3.9.6
+X-Description: Utils for Yu
+ Utils for Yu
+
+Package: libghc-yu-utils-dev
+Architecture: any
+Depends: ${haskell:Depends},
+ ${misc:Depends},
+ ${shlibs:Depends},
+Recommends: ${haskell:Recommends},
+Suggests: ${haskell:Suggests},
+Conflicts: ${haskell:Conflicts},
+Provides: ${haskell:Provides},
+Description: ${haskell:ShortDescription}${haskell:ShortBlurb}
+ ${haskell:LongDescription}
+ .
+ ${haskell:Blurb}
+
+Package: libghc-yu-utils-prof
+Architecture: any
+Depends: ${haskell:Depends},
+ ${misc:Depends},
+Recommends: ${haskell:Recommends},
+Suggests: ${haskell:Suggests},
+Conflicts: ${haskell:Conflicts},
+Provides: ${haskell:Provides},
+Description: ${haskell:ShortDescription}${haskell:ShortBlurb}
+ ${haskell:LongDescription}
+ .
+ ${haskell:Blurb}
+
+Package: libghc-yu-utils-doc
+Architecture: all
+Section: doc
+Depends: ${haskell:Depends},
+ ${misc:Depends},
+Recommends: ${haskell:Recommends},
+Suggests: ${haskell:Suggests},
+Conflicts: ${haskell:Conflicts},
+Description: ${haskell:ShortDescription}${haskell:ShortBlurb}
+ ${haskell:LongDescription}
+ .
+ ${haskell:Blurb}

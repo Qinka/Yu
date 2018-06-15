@@ -36,3 +36,12 @@ test
 ## un-ignore
 !yu-auth/test-src
 !yu-core/test-src
+
+
+# Debian
+*.build
+*.dsc
+*.xz
+*.changes
+*/debian/changelog
+*.ppa.upload

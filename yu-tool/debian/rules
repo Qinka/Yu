@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+DEB_CABAL_PACKAGE = yu-tool
+DEB_DEFAULT_COMPILER = ghc
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/hlibrary.mk
+
+build/haskell-yu-tool-utils:: build-ghc-stamp
