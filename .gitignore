@@ -38,7 +38,7 @@ test
 !yu-core/test-src
 
 
-# Debian
+# Debian pack
 *.build
 *.dsc
 *.xz
