@@ -45,3 +45,5 @@ test
 *.changes
 */debian/changelog
 *.ppa.upload
+*.buildinfo
+*/debian/files
