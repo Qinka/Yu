@@ -1,0 +1,115 @@
+#!/bin/bash
+# Start/stop the cron daemon
+
+### BEGIN INIT INFO
+# Provides: yu-launch
+# Required-Start: $local_fs $network $named $time $syslog
+# Required-Stop:  $local_fs $network $named $time $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop:  0 1 6
+# Short-Description: The yu launcher
+### END INIT INFO
+
+PATH=/bin:/usr/bin
+DESC="yu launcher"
+NAME="yu-launch"
+DAEMON=/usr/bin/yu-launch
+PIDFILE=/var/run/yu-launch.pid
+LOGFILE=/var/log/yu-launch.log
+SCRIPT=/etc/init.d/"$NAME"
+CONFIG_FILE=/etc/xiao/config
+
+. /lib/lsb/init-functions
+
+##############
+### FUNCTIONS
+##############
+
+function install_service() {
+        echo Tring to install this service
+        test -f $SCRIPT || cp ${BASH_SOURCE[0]} $SCRIPT
+        /lib/systemd/systemd-sysv-install enable $NAME
+        return $?
+}
+
+function check_files() {
+        test -f $DAEMON      || exit 0
+        test -f $CONFIG_FILE || exit 0
+}
+
+function do_start() {
+        log_daemon_msg "Starting $DESC" "$NAME"
+        #  --start --nicelevel $NICE --quiet --oknodo \
+        #         --chdir "$PWD" --exec $DAEMON --make-pidfile --pidfile $PIDFILE \
+        #         --background  -- $EXTRA_OPTS
+        /sbin/start-stop-daemon --start --quiet                                       \
+                --make-pidfile --pidfile $PIDFILE --background                        \
+                --startas /bin/bash -- -c "exec $DAEMON $EXTRA_OPTS > $LOGFILE 2>&1"
+        # start_daemon -p $PIDFILE $DAEMON $EXTRA_OPTS
+        log_end_msg $?
+}
+
+function do_stop() {
+        log_daemon_msg "Stopping $DESC" "$NAME"
+        killproc -p $PIDFILE $DAEMON
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
+        log_end_msg $RETVAL
+}
+
+function do_restart() {
+        log_daemon_msg "Restarting $DESC" "$NAME"
+        $0 stop
+        $0 start
+}
+
+function do_reload() {
+        log_daemon_msg "Reloading configuration files" "$NAME"
+        log_daemon_msg "yu-launch still not support reload config file without restarting." "$NAME"
+        # yu-launch can not reload config file without restarting.
+        $0 restart 
+}
+
+function do_status() {
+        status_of_proc -p $PIDFILE $DAEMON $NAME && exit 0 || exit $?
+}
+
+function do_help() {
+        test -f $SCRIPT
+        RETVAL=$?
+        if [ -f "$SCRIPT" ]; then
+                log_action_msg "Usage: $SCRIPT  {start|stop|status|restart|reload|force-reload}"
+                exit 2
+        else
+                log_action_msg "Usage: $0 install"
+                exit 3
+        fi
+}
+
+check_files
+
+case "$1" in
+start)
+        do_start
+        ;;
+stop)   
+        do_stop
+        ;;
+restart)
+        do_restart
+        ;;
+reload|force-reload)
+        do_reload
+        ;;
+status)
+        do_status
+        ;;
+install)
+        install_service
+        ;;
+*)
+        do_help
+        ;;
+esac
+
+exit 0
