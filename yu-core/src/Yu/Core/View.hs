@@ -114,6 +114,7 @@ respondResourceT :: (Yesod a, Hamletic a (HandlerT a IO))
                    -> Text    -- ^ text
                    -> HandlerT a IO TypedContent
 respondResourceT ResT{..} text = do
+  neverExpires
   respondSource (fromMaybe "" $ fmap T.encodeUtf8 rMIME) $ do
     sendChunkText text
     sendFlush
@@ -124,6 +125,7 @@ respondResourceB :: (Yesod a, Hamletic a (HandlerT a IO))
                    -> ByteString    -- ^ text
                    -> HandlerT a IO TypedContent
 respondResourceB ResT{..} bin = do
+  neverExpires
   respondSource (fromMaybe "" $ fmap T.encodeUtf8 rMIME) $ do
     sendChunkBS bin
     sendFlush
@@ -134,4 +136,5 @@ respondStatic :: (Yesod a, Hamletic a (HandlerT a IO))
                => ResT -- ^ index for resource
                -> Text -- ^ Url
                -> HandlerT a IO TypedContent
-respondStatic _ url = redirectWith status301 url
+respondStatic _ url = 
+  neverExpires >> redirectWith status301 url
